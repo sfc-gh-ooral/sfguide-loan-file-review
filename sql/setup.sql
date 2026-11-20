@@ -388,7 +388,7 @@ BEGIN
          AI_COMPLETE('claude-sonnet-4-5',
            'You are a mortgage quality control reviewer. Using only these facts, write a QC narrative: first a 2-sentence '
            || 'overview of the file, then up to 3 short bullet points starting with "- " covering each failed or pending check '
-           || '(name the document it came from) and the recommended next step. If every check passes and no conditions are open, '
+           || '(name the document it came from) and the recommended next step. Thresholds come from the lender''s own credit policy table; do not attribute them to agencies or loan programs. If every check passes and no conditions are open, '
            || 'say the file appears ready to clear to close. Do not invent facts or amounts. Facts: ' || s.facts),
          'claude-sonnet-4-5', CURRENT_TIMESTAMP()
   FROM LOAN_FACT_SHEET s WHERE s.loan_id IN

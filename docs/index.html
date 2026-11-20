@@ -1,0 +1,230 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Mortgage Loan File Review · Snowflake example</title>
+<meta name="description" content="Help loan processors and QC reviewers extract borrower documents, verify them against the application, and clear conditions faster. A Snowflake example on synthetic data.">
+<style>
+:root {
+  color-scheme: light dark;
+  --bg: light-dark(#f6f7fb, #0d1220);
+  --card: light-dark(#ffffff, #141b2d);
+  --card-2: light-dark(#f0f2f8, #1b2439);
+  --border: light-dark(#dde1ec, #2a3550);
+  --text: light-dark(#141a2e, #e8ecf6);
+  --text-2: light-dark(#4a5373, #aab3cc);
+  --muted: light-dark(#6b7493, #8590ad);
+  --accent: light-dark(#1a6fd1, #5aa7f5);
+  --accent-soft: light-dark(rgba(26,111,209,.1), rgba(90,167,245,.14));
+  --warn-soft: light-dark(#fff6e6, #2b2414);
+  --warn-border: light-dark(#f0c36d, #6b5420);
+}
+* { box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+body { margin: 0; background: var(--bg); color: var(--text); font: 16px/1.6 ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; -webkit-font-smoothing: antialiased; }
+a { color: var(--accent); }
+img, svg { max-width: 100%; height: auto; }
+.wrap { max-width: 1080px; width: 100%; margin: 0 auto; padding: 0 clamp(16px, 4vw, 28px); }
+header.top { border-bottom: 1px solid var(--border); background: var(--card); }
+header.top .wrap { display: flex; align-items: center; gap: 12px; padding-top: 14px; padding-bottom: 14px; flex-wrap: wrap; }
+.mark { width: 30px; height: 30px; border-radius: 8px; background: var(--accent); display: grid; place-items: center; }
+.brand { font-weight: 650; }
+.brand small { display: block; color: var(--muted); font-weight: 400; font-size: 12px; }
+nav.links { margin-left: auto; display: flex; gap: 16px; flex-wrap: wrap; font-size: 14px; }
+nav.links a { text-decoration: none; color: var(--text-2); }
+nav.links a:hover { color: var(--accent); }
+.hero { padding-top: clamp(36px, 7vw, 72px); padding-bottom: 28px; }
+.eyebrow { font-size: 13px; font-weight: 600; letter-spacing: .06em; text-transform: uppercase; color: var(--accent); }
+h1 { font-size: clamp(30px, 5vw, 46px); line-height: 1.15; margin: 10px 0 16px; letter-spacing: -.01em; }
+.lede { font-size: clamp(17px, 2.2vw, 19px); color: var(--text-2); max-width: 760px; margin: 0 0 24px; }
+.cta { display: flex; gap: 10px; flex-wrap: wrap; margin-bottom: 26px; }
+.btn { display: inline-block; padding: 10px 16px; border-radius: 9px; border: 1px solid var(--border); background: var(--card); color: var(--text); text-decoration: none; font-weight: 600; font-size: 15px; }
+.btn.primary { background: var(--accent); border-color: var(--accent); color: #fff; }
+.facts { display: grid; grid-template-columns: repeat(auto-fit, minmax(190px, 1fr)); gap: 10px; }
+.fact { background: var(--card); border: 1px solid var(--border); border-radius: 10px; padding: 12px 14px; font-size: 14px; }
+.fact b { display: block; font-size: 12px; color: var(--muted); font-weight: 600; text-transform: uppercase; letter-spacing: .04em; }
+.note { background: var(--warn-soft); border: 1px solid var(--warn-border); border-radius: 10px; padding: 12px 16px; font-size: 14px; margin: 22px 0 0; }
+section { padding: 44px 0; border-top: 1px solid var(--border); }
+h2 { font-size: clamp(24px, 3.4vw, 30px); margin: 0 0 10px; }
+h3 { font-size: 18px; margin: 0 0 6px; }
+.sub { color: var(--text-2); max-width: 760px; margin: 0 0 24px; }
+.grid3 { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 14px; }
+.card { background: var(--card); border: 1px solid var(--border); border-radius: 12px; padding: 18px; }
+.card p { margin: 0; color: var(--text-2); font-size: 15px; }
+figure { margin: 0 0 34px; }
+figure img { display: block; width: 100%; border: 1px solid var(--border); border-radius: 12px; background: var(--card); }
+figcaption { margin-top: 10px; font-size: 15px; color: var(--text-2); }
+figcaption .cap { display: inline-block; font-size: 12px; font-weight: 600; color: var(--accent); background: var(--accent-soft); border-radius: 999px; padding: 1px 9px; margin-right: 6px; }
+.step { font-size: 13px; font-weight: 700; color: var(--muted); margin-bottom: 6px; }
+.two { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 22px; align-items: start; }
+.table-wrap { overflow-x: auto; }
+table { border-collapse: collapse; width: 100%; font-size: 14px; background: var(--card); border: 1px solid var(--border); border-radius: 10px; overflow: hidden; }
+th, td { text-align: left; padding: 9px 12px; border-bottom: 1px solid var(--border); vertical-align: top; }
+th { background: var(--card-2); font-size: 12px; text-transform: uppercase; letter-spacing: .04em; color: var(--muted); }
+code, pre { font-family: ui-monospace, Menlo, Consolas, monospace; font-size: 13px; }
+code { background: var(--card-2); padding: 1px 5px; border-radius: 4px; }
+pre { background: var(--card-2); border: 1px solid var(--border); border-radius: 10px; padding: 14px 16px; overflow-x: auto; margin: 0 0 14px; }
+pre code { background: none; padding: 0; }
+ul { padding-left: 20px; }
+li { margin: 4px 0; }
+footer { border-top: 1px solid var(--border); padding: 28px 0 44px; color: var(--muted); font-size: 14px; }
+@media (max-width: 560px) { nav.links { margin-left: 0; width: 100%; gap: 12px; } }
+</style>
+</head>
+<body>
+
+<header class="top">
+  <div class="wrap">
+    <div class="mark" aria-hidden="true">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 10.5 12 3l9 7.5"/><path d="M5 9.5V21h14V9.5"/><path d="M9.5 15l2 2 3.5-3.5"/></svg>
+    </div>
+    <div class="brand">Mortgage Loan File Review<small>A Snowflake example on synthetic data</small></div>
+    <nav class="links" aria-label="Page sections">
+      <a href="#walkthrough">Walkthrough</a>
+      <a href="#how-it-works">How it works</a>
+      <a href="#get-started">Get started</a>
+      <a href="https://github.com/sfc-gh-ooral/sfguide-loan-file-review">Repository</a>
+    </nav>
+  </div>
+</header>
+
+<main>
+<div class="wrap hero" id="problem">
+  <div class="eyebrow">Banking · Operations</div>
+  <h1>Verify every loan file against its application, and clear conditions faster</h1>
+  <p class="lede">A mortgage file arrives as a stack of PDFs: the application, pay stubs, W-2s, bank statements, an appraisal, a title commitment and a closing disclosure. A processor has to read each one, compare it with what the borrower stated, chase what doesn't match and clear conditions before closing. This example reads every document as it lands, extracts the fields with confidence scores, checks them against the application with tolerance rules from a credit policy table, and shows each mismatch beside the document it came from. The processor stays in charge: clear a condition, ask the borrower for a document with an AI-drafted message, or escalate to an underwriter.</p>
+  <div class="cta">
+    <a class="btn primary" href="try/">Try the example in your browser</a>
+    <a class="btn" href="https://github.com/sfc-gh-ooral/sfguide-loan-file-review">View the repository</a>
+  </div>
+  <div class="facts">
+    <div class="fact"><b>No-account mode</b>Runs in the browser on synthetic data; nothing to install</div>
+    <div class="fact"><b>Live mode</b>Any edition; Cortex AI functions and Cortex Search</div>
+    <div class="fact"><b>Setup</b>One Snowsight worksheet; 27 minutes on our busy shared test account</div>
+    <div class="fact"><b>Measured cost</b>About 18 Cortex AI credits and 0.9 warehouse credits for 512 documents</div>
+  </div>
+  <p class="note"><strong>Synthetic data, illustrative logic.</strong> Every borrower, employer, bank, appraiser and title company is fictional. This is not underwriting, credit, legal, regulatory or compliance advice, and it isn't a production system. The tolerances are illustrative, not a credit policy, and AI drafts and narratives are suggestions for a person to review.</p>
+</div>
+
+<section>
+  <div class="wrap">
+    <h2>Who it's for</h2>
+    <div class="grid3">
+      <div class="card"><h3>Loan processors</h3><p>A pipeline of files by stage with open conditions and days to close, and a loan file showing what's missing, what doesn't match, and where each number came from.</p></div>
+      <div class="card"><h3>Underwriters</h3><p>Escalated files with the application and document values side by side, and questions about the file answered with citations.</p></div>
+      <div class="card"><h3>QC reviewers</h3><p>A pre-closing sample with the same checks, findings by type against twelve months of post-closing QC, and an AI QC narrative per loan.</p></div>
+    </div>
+  </div>
+</section>
+
+<section id="walkthrough">
+  <div class="wrap">
+    <h2>Walkthrough</h2>
+    <p class="sub">Screenshots of the app in no-account mode. Its data and AI text were captured from the live pipeline on the same synthetic documents. The four story loans are planted on this synthetic data set.</p>
+    <figure>
+      <img src="images/01-pipeline.png" alt="Pipeline: 54 active loans, 51 open conditions, 23.9 average days to close, 512 of 512 documents extracted, a chart of loans and open conditions by stage, and the loan list with failed checks" loading="lazy">
+      <figcaption><span class="cap">Stage, stream and task</span>The pipeline. Every file that lands on the stage is parsed, classified and extracted by the task, and SQL rules flag the loans whose documents disagree with the application.</figcaption>
+    </figure>
+    <figure>
+      <img src="images/02-income-mismatch.png" alt="Loan file LN-260101: the document checklist and the application vs documents table, where stated income of $9,440 fails against $8,000.01 verified from pay stub DOC-0003" loading="lazy">
+      <figcaption><span class="cap">AI_EXTRACT · SQL tolerance rules</span>The application states $9,440 a month; the latest pay stub supports $8,000.01. The income is 18% higher than the documents, beyond the 5% tolerance, and the source pay stub is one click away.</figcaption>
+    </figure>
+    <figure>
+      <img src="images/03-deposit-statement.png" alt="Loan file LN-260102: the large deposits check fails on an $18,500 mobile check deposit from bank statement DOC-0015 against a $3,683 threshold" loading="lazy">
+      <figcaption><span class="cap">AI_EXTRACT table extraction</span>AI_EXTRACT pulls the deposits table from each bank statement. An $18,500 mobile check deposit is more than half of verified monthly income, so it needs a sourced explanation.</figcaption>
+    </figure>
+    <figure>
+      <img src="images/04-request-document.png" alt="Request a document from Desmond Varga: an editable AI-drafted email asking for documents to resolve the monthly income condition, labeled Sample AI response" loading="lazy">
+      <figcaption><span class="cap">AI_COMPLETE</span>Request a document. AI_COMPLETE drafts a plain-language email for the open condition; the processor edits it and records the request.</figcaption>
+    </figure>
+    <figure>
+      <img src="images/05-qc-sampling.png" alt="QC sampling: findings by type for 12 months of post-closing QC and today's failed checks, the share of reviewed loans with a finding by month, the pre-closing sample, and an AI QC narrative for LN-260103 on its 168-day-old appraisal" loading="lazy">
+      <figcaption><span class="cap">AI_COMPLETE · SQL</span>QC sampling. The appraisal for LN-260103 will be 168 days old at closing against a 120-day policy, and the AI QC narrative explains the finding and the next step.</figcaption>
+    </figure>
+    <figure>
+      <img src="images/06-ask-income.png" alt="Ask the file for LN-260101: the verified monthly income is $8,000.01, calculated as $3,692.31 times 26 divided by 12, with numbered citations to the application, conditions and statements" loading="lazy">
+      <figcaption><span class="cap">Cortex Search · AI_COMPLETE</span>"What's the borrower's verified monthly income?" Cortex Search finds the pay stub and application for this loan, and AI_COMPLETE shows the arithmetic with citations.</figcaption>
+    </figure>
+    <figure>
+      <img src="images/07-clean-file.png" alt="Loan file LN-260104: every document extracted, all eight checks pass, and the file is flagged ready to clear to close" loading="lazy">
+      <figcaption><span class="cap">SQL tolerance rules</span>A clean file. Every required document is extracted, all eight checks pass and no conditions are open, so it's flagged ready to clear to close.</figcaption>
+    </figure>
+  </div>
+</section>
+
+<section id="how-it-works">
+  <div class="wrap">
+    <h2>How it works</h2>
+    <p class="sub">Each capability below ran in live mode on a Snowflake account in AWS US East 1 in November 2026.</p>
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th>Step</th><th>Snowflake capability</th><th>What it does here</th></tr></thead>
+        <tbody>
+          <tr><td>Intake</td><td><a href="https://docs.snowflake.com/en/user-guide/data-load-dirtables-pipeline">Stage, directory table, stream and task</a></td><td>New files on the stage are queued by a stream; a task calls one procedure whenever the stream has data.</td></tr>
+          <tr><td>Read</td><td><a href="https://docs.snowflake.com/en/sql-reference/functions/ai_parse_document">AI_PARSE_DOCUMENT</a></td><td>OCR and layout for every PDF, including the pay stub and bank statement tables.</td></tr>
+          <tr><td>Classify</td><td><a href="https://docs.snowflake.com/en/sql-reference/functions/ai_classify">AI_CLASSIFY</a></td><td>Names the document type. It agreed with the generator's label on all 512 documents in our run.</td></tr>
+          <tr><td>Extract</td><td><a href="https://docs.snowflake.com/en/sql-reference/functions/ai_extract">AI_EXTRACT</a></td><td>Pulls the fields for each of seven document types with a confidence score per field, and the deposits table from bank statements.</td></tr>
+          <tr><td>Verify</td><td>SQL views and a CREDIT_POLICY table</td><td>Eight checks of application vs documents: income, employer, borrower name, large deposits, appraisal age, appraised value, loan amount and property address. Failures open a condition automatically.</td></tr>
+          <tr><td>QC narrative and borrower messages</td><td><a href="https://docs.snowflake.com/en/sql-reference/functions/ai_complete-single-string">AI_COMPLETE</a></td><td>Writes a QC narrative per loan from its fact sheet, and drafts a borrower email for any open condition.</td></tr>
+          <tr><td>Ask the file</td><td><a href="https://docs.snowflake.com/en/user-guide/snowflake-cortex/cortex-search/cortex-search-overview">Cortex Search</a> and AI_COMPLETE</td><td>Searches one loan's documents and conditions, then answers with numbered citations.</td></tr>
+          <tr><td>Decisions</td><td>Table writes from the app</td><td>Clear, request document and escalate actions are stored with who made them and when.</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</section>
+
+<section id="get-started">
+  <div class="wrap">
+    <h2>Get started</h2>
+    <div class="two">
+      <div>
+        <h3>No account</h3>
+        <p class="sub" style="margin-bottom:12px">Open the <a href="try/">hosted example</a>, or run it locally with Node.js 20.19 or later:</p>
+<pre><code>git clone https://github.com/sfc-gh-ooral/sfguide-loan-file-review.git
+cd sfguide-loan-file-review
+npm install
+npm run dev</code></pre>
+        <p class="sub">AI answers in this mode are captured from the live pipeline and labeled <strong>Sample AI response</strong>.</p>
+      </div>
+      <div>
+        <h3>Your Snowflake account</h3>
+        <ol>
+          <li>Run <a href="https://github.com/sfc-gh-ooral/sfguide-loan-file-review/blob/main/sql/setup.sql"><code>sql/setup.sql</code></a> in a Snowsight worksheet. It creates a dedicated database, an XSMALL warehouse and a least-privilege role, loads the synthetic files from the repository, and runs the pipeline once.</li>
+          <li>Register a key pair for your user and copy <code>.env.example</code> to <code>.env.local</code>.</li>
+          <li>Run <code>npm run dev</code> and switch to Live. Each AI call shows its measured latency.</li>
+          <li>When you're done, run <code>sql/cleanup.sql</code>.</li>
+        </ol>
+        <p class="sub">Cortex AI functions and Cortex Search must be available in your region or through cross-region inference. The README lists every object created, the cost, and the full steps.</p>
+      </div>
+    </div>
+    <h3 style="margin-top:20px">Customize with Cortex Code</h3>
+    <ul>
+      <li>"Add my document types and extraction fields, and test them on 10 sample files."</li>
+      <li>"Change the income tolerance rules to match my credit policy and show the affected loans."</li>
+      <li>"Export QC findings in my investor reporting format."</li>
+    </ul>
+  </div>
+</section>
+
+<section id="limits">
+  <div class="wrap">
+    <h2>Limits and disclaimer</h2>
+    <ul>
+      <li>Verified income uses the latest pay stub for a single salaried borrower; there are no co-borrowers, hourly, bonus or self-employment income.</li>
+      <li>The checks are simple tolerance rules for illustration, not agency or investor guidelines.</li>
+      <li>AI_EXTRACT confidence for appraisal fields was lower (around 60%) on these synthetic one-page summaries; the app shows the score so people can review those fields.</li>
+      <li>Requesting a document records the request and the drafted message; the example doesn't send email.</li>
+      <li>Costs and latency depend on your account, region and model.</li>
+    </ul>
+    <p class="note">This is an illustrative example provided as is. It is not an official Snowflake product, it isn't supported by Snowflake Support, and it contains no customer data. Apache 2.0 license.</p>
+  </div>
+</section>
+</main>
+
+<footer>
+  <div class="wrap">Owner: Oz Oral · Last reviewed: November 2026 · <a href="https://github.com/sfc-gh-ooral/sfguide-loan-file-review">Repository</a> · <a href="https://docs.snowflake.com/">Snowflake documentation</a></div>
+</footer>
+</body>
+</html>
