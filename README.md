@@ -1,4 +1,4 @@
-# Mortgage Loan File Review
+# Mortgage Loan File Review · Lintora File Desk
 
 Help loan processors and QC reviewers extract borrower documents, verify them against the application, and clear conditions faster.
 
@@ -6,7 +6,11 @@ Help loan processors and QC reviewers extract borrower documents, verify them ag
 
 > Synthetic data and illustrative logic only. Not underwriting, credit, legal, regulatory or compliance advice. This is an example, not an official Snowflake product, and it isn't supported by Snowflake Support.
 
+![Lintora File Desk pipeline: a stage line of loans by stage, KPI tiles, the work queue and the files that need a human](docs/images/01-pipeline.png)
+
 ## What it does
+
+The app is **Lintora File Desk**, a fictional product brand used only in this example (design notes in [docs/DESIGN.md](docs/DESIGN.md)).
 
 A fictional lender, Halvaren Home Lending, has 60 mortgage loan files with 512 borrower documents: loan application summaries, pay stubs, W-2s, bank statements, appraisal summaries, title commitments and closing disclosures. Each PDF lands on a Snowflake stage. A stream on the stage's directory table queues it, and a task runs one procedure that:
 
@@ -20,8 +24,8 @@ A fictional lender, Halvaren Home Lending, has 60 mortgage loan files with 512 b
 
 | Screen | What you see |
 | --- | --- |
-| Pipeline | Loans by stage, open conditions, days to close, extraction progress, and the files that failed a check or are ready to clear to close |
-| Loan file | Document checklist with extraction status and confidence; application vs documents with mismatches highlighted and a link to the source document; conditions with **Clear**, **Request document** (AI-drafted message) and **Escalate to underwriter**; each parsed document beside its extracted fields |
+| Pipeline | A stage line of loans and open conditions per stage, KPI tiles, a sortable and filterable work queue, the files that need a human, closing horizon and processor workload |
+| Loan file | A three-pane workspace: document checklist with extraction progress and confidence; application vs documents with mismatches highlighted and a link to the source; conditions with **Clear**, **Draft borrower request** (AI-drafted message) and **Escalate to underwriter**; and a document drawer with the parsed page and its extracted fields |
 | QC sampling | Findings by type (12 months of post-closing QC and today's failed checks), the pre-closing sample, an AI QC narrative per loan, and the credit policy tolerances |
 | Ask the file | Questions such as "What's the borrower's verified monthly income?" answered from one loan's documents with numbered citations |
 
@@ -46,14 +50,14 @@ npm install
 npm run dev
 ```
 
-Open http://localhost:3000. The app runs on bundled responses captured from the live pipeline on the same synthetic data. AI output is labeled **Sample AI response**, and it waits a few seconds with staged progress steps to mirror the live calls. In Sample mode, Ask the file has captured answers for the suggested questions on the four story loans and 12 others, and Request document has captured drafts for the open conditions on the story loans.
+Open http://localhost:3000. The app runs on bundled responses captured from the live pipeline on the same synthetic data. AI output is labeled **Sample AI response**, and it waits a few seconds with staged progress steps to mirror the live calls. In Sample mode, Ask the file has captured answers for the suggested questions on the four story loans and 12 others, and Draft borrower request has captured drafts for the open conditions on the story loans.
 
 ## Live mode: deploy to your account
 
 1. Open `sql/setup.sql` in a Snowsight SQL worksheet and run it top to bottom. Part 1 runs as ACCOUNTADMIN; everything else runs as the least-privilege role `LOAN_REVIEW_DEMO_ROLE`. The final three queries show how many documents were parsed and classified correctly, the result of every check, and the four planted stories.
 2. Create a key pair and register the public key on your user (commands in `.env.example`).
 3. Copy `.env.example` to `.env.local` and fill in the account, user and key path.
-4. Run `npm run dev` and switch the header to **Live**. Every screen now reads from `LOAN_REVIEW_DEMO`; Regenerate, Request document, Ask, Clear and Escalate call Snowflake, and the badges show measured latency. If a live call fails, the app shows the error rather than sample data.
+4. Run `npm run dev` and switch the work bar to **Live**. Every screen now reads from `LOAN_REVIEW_DEMO`; Regenerate, Draft borrower request, Ask, Clear and Escalate call Snowflake, and the badges show measured latency. If a live call fails, the app shows the error rather than sample data.
 
 To see the pipeline pick up a new file, upload a PDF to the stage, add a manifest row, and refresh the directory table. The task runs within five minutes (or run `EXECUTE TASK PROCESS_DOCS_TASK`):
 
@@ -91,10 +95,10 @@ Measured on an XSMALL warehouse in AWS US East 1, November 2026, for the 512 bun
 
 | | Measured |
 | --- | --- |
-| Setup time | 27 minutes end to end, on a shared account where other workloads were running AI functions at the same time. Almost all of it is the first pipeline pass |
+| Setup time | 11 to 27 minutes end to end in two runs on a shared account (11.2 minutes on November 20, 2026; 27 minutes earlier when other workloads were running AI functions). Almost all of it is the first pipeline pass. In the faster run 13 of 512 extractions came back empty on the first pass; calling `PROCESS_NEW_DOCUMENTS()` once more (or waiting for the task) filled them in about a minute |
 | Cortex AI credits per full setup | About 18 from the AI SQL usage history: AI_EXTRACT 17.4 (about 0.034 credits per document), AI_CLASSIFY 0.4, AI_COMPLETE 0.5. AI_PARSE_DOCUMENT is billed per page (512 one-page PDFs) and wasn't in that usage view when we measured; see the consumption table for its rate |
-| Warehouse credits | 0.93 for setup and our live testing; the warehouse suspends after 60 seconds |
-| Live app latency | Screens 1–3 s after the first call (the first call opens the connection and took 8–12 s); Request document draft 3.3–5.2 s (median 4.0 s); Ask the file 3.1–9.3 s (median 4.7 s); Regenerate QC narrative 12–14 s |
+| Warehouse credits | 0.54 to 0.93 per setup plus live testing in our two runs (metering history lags, so the lower figure may be partial); the warehouse suspends after 60 seconds |
+| Live app latency | Varied with account load across our two runs. Screens: 1–3 s after the first call in one run, 10–15 s in the other (the first call opens the connection). Borrower request draft 3.3–6.0 s; Ask the file 3.1–14 s; Regenerate QC narrative 12–20 s. Each badge in the app shows the measured time |
 
 Most of the cost is AI_EXTRACT. To try it more cheaply on your own documents, start with a small sample or fewer fields. The task's `WHEN SYSTEM$STREAM_HAS_DATA` check doesn't start the warehouse while no files arrive. Costs depend on your region, model, document length and pricing; check the [Snowflake Service Consumption Table](https://www.snowflake.com/legal-files/CreditConsumptionTable.pdf).
 
@@ -107,9 +111,9 @@ Run `sql/cleanup.sql`. It drops the database (and with it every table, stage, fi
 - Verified income is the latest pay stub's gross pay times pay periods per year, for one salaried borrower. There are no co-borrowers, hourly, overtime, bonus, rental or self-employment income, and the W-2 is shown for context, not used in the rule.
 - The tolerance checks are simple illustrative rules, not agency, investor or regulatory guidelines. Payroll deposits are recognized by their description text.
 - AI_EXTRACT confidence for the appraisal summaries came back lower (lowest field around 57–78%, mostly the appraiser name) on these synthetic one-page documents. The app shows each score so people can review those fields. Bank statements use a table schema, which doesn't return scores.
-- AI function calls can return NULL when a call fails, for example under heavy load. The procedure retries documents with an empty type or empty fields on its next run.
+- AI function calls can return NULL when a call fails, for example under heavy load. The procedure retries documents with an empty type or empty fields on its next run, and withdraws any open rule condition whose check no longer fails once the documents extract.
 - New documents need a manifest row that links them to a loan, and internal stages need `ALTER STAGE ... REFRESH` before the stream sees new files.
-- Request document records the request and the drafted message in `APP.LOAN_ACTIONS`; it doesn't send email. Escalate records a note; there is no underwriter queue.
+- Draft borrower request records the request and the drafted message in `APP.LOAN_ACTIONS`; it doesn't send email. Escalate records a note; there is no underwriter queue.
 - The app connects as one role. There is no row-level separation between processors in this example.
 - Ask the file retrieves six excerpts per question, so broad questions about the whole file can miss documents; specific questions work best.
 - Sample mode keeps your decisions in memory for the current session only.
@@ -124,16 +128,16 @@ Run `sql/cleanup.sql`. It drops the database (and with it every table, stage, fi
 
 ```text
 app/                 Next.js screens (pipeline, loan file, QC sampling, ask) and the /api/data route
-components/          Shell, Sample/Live switch, staged AI progress, shared UI
+components/          Shell (icon rail, work bar), brand mark, Sample/Live switch, staged AI progress, UI kit
 lib/live-data.ts     Live mode: Snowflake queries with bind variables
 lib/mock-data.ts     No-account mode: responses captured from the live app
 scripts/             Data generator, sample capture, hosted-example build, screenshots
 sql/                 setup.sql and cleanup.sql
 data/                Synthetic CSVs and documents (see data/README.md)
-docs/                GitHub Pages guide; docs/try/ is the hosted no-account example
+docs/                GitHub Pages guide and DESIGN.md; docs/try/ is the hosted no-account example
 ```
 
-Regenerate the data with `python3 scripts/generate_data.py` (needs reportlab). Rebuild the hosted example with `npm run build:example`. Refresh the sample data from a live deployment with `node scripts/capture-sample.mjs` while `npm run dev` runs in Live mode.
+Check the design tokens against WCAG AA with `node scripts/check-contrast.mjs`. Regenerate the data with `python3 scripts/generate_data.py` (needs reportlab). Rebuild the hosted example with `npm run build:example`. Refresh the sample data from a live deployment with `node scripts/capture-sample.mjs` while `npm run dev` runs in Live mode.
 
 ## License
 
