@@ -1,0 +1,116 @@
+condition_id,loan_id,category,description,status,source,opened_at,cleared_at
+C-0001,LN-260101,Employment,Verbal verification of employment within 10 business days of closing.,Open,Underwriting,2026-11-11,
+C-0002,LN-260101,Property,Provide HOA dues statement or confirm the property is not in an HOA.,Open,Underwriting,2026-11-09,
+C-0003,LN-260101,Assets,Provide the most recent two months of statements for all asset accounts.,Cleared,Underwriting,2026-11-16,2026-11-19
+C-0004,LN-260102,Assets,Provide the most recent two months of statements for all asset accounts.,Cleared,Underwriting,2026-11-01,2026-11-05
+C-0005,LN-260102,Credit,Letter of explanation for recent credit inquiries.,Open,Underwriting,2026-10-26,
+C-0006,LN-260102,Insurance,Provide homeowner's insurance declarations page showing the lender as mortgagee.,Cleared,Underwriting,2026-11-01,2026-11-03
+C-0007,LN-260102,Property,Provide HOA dues statement or confirm the property is not in an HOA.,Open,Underwriting,2026-10-25,
+C-0008,LN-260103,Employment,Verbal verification of employment within 10 business days of closing.,Open,Underwriting,2026-06-11,
+C-0009,LN-260103,Assets,Provide the most recent two months of statements for all asset accounts.,Cleared,Underwriting,2026-06-10,2026-06-19
+C-0010,LN-260103,Credit,Letter of explanation for recent credit inquiries.,Open,Underwriting,2026-06-17,
+C-0011,LN-260103,Closing,Rate lock extended to 2026-11-25 after a closing delay.,Cleared,Underwriting,2026-09-14,2026-09-15
+C-0012,LN-260104,Insurance,Provide homeowner's insurance declarations page showing the lender as mortgagee.,Cleared,Underwriting,2026-10-29,2026-11-01
+C-0013,LN-260104,Property,Provide HOA dues statement or confirm the property is not in an HOA.,Cleared,Underwriting,2026-11-02,2026-11-09
+C-0014,LN-260126,Employment,Verbal verification of employment within 10 business days of closing.,Open,Underwriting,2026-11-10,
+C-0015,LN-260126,Credit,Letter of explanation for recent credit inquiries.,Open,Underwriting,2026-11-12,
+C-0016,LN-260126,Assets,Provide the most recent two months of statements for all asset accounts.,Open,Underwriting,2026-11-10,
+C-0017,LN-260127,Insurance,Provide homeowner's insurance declarations page showing the lender as mortgagee.,Open,Underwriting,2026-11-08,
+C-0018,LN-260127,Assets,Provide the most recent two months of statements for all asset accounts.,Open,Underwriting,2026-11-08,
+C-0019,LN-260128,Property,Provide HOA dues statement or confirm the property is not in an HOA.,Cleared,Underwriting,2026-11-07,2026-11-15
+C-0020,LN-260128,Credit,Letter of explanation for recent credit inquiries.,Open,Underwriting,2026-11-12,
+C-0021,LN-260129,Credit,Letter of explanation for recent credit inquiries.,Open,Underwriting,2026-11-07,
+C-0022,LN-260129,Property,Provide HOA dues statement or confirm the property is not in an HOA.,Open,Underwriting,2026-11-03,
+C-0023,LN-260130,Property,Provide HOA dues statement or confirm the property is not in an HOA.,Open,Underwriting,2026-11-11,
+C-0024,LN-260130,Assets,Provide the most recent two months of statements for all asset accounts.,Open,Underwriting,2026-11-04,
+C-0025,LN-260131,Employment,Verbal verification of employment within 10 business days of closing.,Open,Underwriting,2026-11-13,
+C-0026,LN-260131,Property,Provide HOA dues statement or confirm the property is not in an HOA.,Open,Underwriting,2026-11-17,
+C-0027,LN-260132,Property,Provide HOA dues statement or confirm the property is not in an HOA.,Open,Underwriting,2026-11-05,
+C-0028,LN-260132,Employment,Verbal verification of employment within 10 business days of closing.,Open,Underwriting,2026-11-03,
+C-0029,LN-260132,Insurance,Provide homeowner's insurance declarations page showing the lender as mortgagee.,Open,Underwriting,2026-11-05,
+C-0030,LN-260133,Insurance,Provide homeowner's insurance declarations page showing the lender as mortgagee.,Open,Underwriting,2026-11-14,
+C-0031,LN-260133,Assets,Provide the most recent two months of statements for all asset accounts.,Open,Underwriting,2026-11-15,
+C-0032,LN-260134,Property,Provide HOA dues statement or confirm the property is not in an HOA.,Cleared,Underwriting,2026-11-05,2026-11-10
+C-0033,LN-260134,Credit,Letter of explanation for recent credit inquiries.,Open,Underwriting,2026-11-10,
+C-0034,LN-260134,Insurance,Provide homeowner's insurance declarations page showing the lender as mortgagee.,Cleared,Underwriting,2026-11-10,2026-11-18
+C-0035,LN-260135,Property,Provide HOA dues statement or confirm the property is not in an HOA.,Open,Underwriting,2026-11-14,
+C-0036,LN-260135,Employment,Verbal verification of employment within 10 business days of closing.,Open,Underwriting,2026-11-12,
+C-0037,LN-260136,Assets,Provide the most recent two months of statements for all asset accounts.,Open,Underwriting,2026-11-19,
+C-0038,LN-260136,Employment,Verbal verification of employment within 10 business days of closing.,Open,Underwriting,2026-11-11,
+C-0039,LN-260136,Credit,Letter of explanation for recent credit inquiries.,Open,Underwriting,2026-11-13,
+C-0040,LN-260137,Credit,Letter of explanation for recent credit inquiries.,Open,Underwriting,2026-11-13,
+C-0041,LN-260137,Assets,Provide the most recent two months of statements for all asset accounts.,Open,Underwriting,2026-11-12,
+C-0042,LN-260137,Employment,Verbal verification of employment within 10 business days of closing.,Open,Underwriting,2026-11-11,
+C-0043,LN-260138,Credit,Letter of explanation for recent credit inquiries.,Cleared,Underwriting,2026-11-11,2026-11-19
+C-0044,LN-260138,Assets,Provide the most recent two months of statements for all asset accounts.,Open,Underwriting,2026-11-07,
+C-0045,LN-260139,Employment,Verbal verification of employment within 10 business days of closing.,Open,Underwriting,2026-10-30,
+C-0046,LN-260139,Property,Provide HOA dues statement or confirm the property is not in an HOA.,Open,Underwriting,2026-11-01,
+C-0047,LN-260140,Credit,Letter of explanation for recent credit inquiries.,Open,Underwriting,2026-10-29,
+C-0048,LN-260140,Insurance,Provide homeowner's insurance declarations page showing the lender as mortgagee.,Cleared,Underwriting,2026-10-28,2026-11-01
+C-0049,LN-260140,Employment,Verbal verification of employment within 10 business days of closing.,Open,Underwriting,2026-10-27,
+C-0050,LN-260140,Assets,Provide the most recent two months of statements for all asset accounts.,Cleared,Underwriting,2026-11-02,2026-11-05
+C-0051,LN-260141,Property,Provide HOA dues statement or confirm the property is not in an HOA.,Cleared,Underwriting,2026-11-10,2026-11-18
+C-0052,LN-260141,Employment,Verbal verification of employment within 10 business days of closing.,Cleared,Underwriting,2026-11-10,2026-11-18
+C-0053,LN-260141,Insurance,Provide homeowner's insurance declarations page showing the lender as mortgagee.,Cleared,Underwriting,2026-11-07,2026-11-10
+C-0054,LN-260141,Credit,Letter of explanation for recent credit inquiries.,Open,Underwriting,2026-11-07,
+C-0055,LN-260142,Insurance,Provide homeowner's insurance declarations page showing the lender as mortgagee.,Cleared,Underwriting,2026-11-03,2026-11-07
+C-0056,LN-260142,Employment,Verbal verification of employment within 10 business days of closing.,Cleared,Underwriting,2026-11-09,2026-11-18
+C-0057,LN-260142,Credit,Letter of explanation for recent credit inquiries.,Open,Underwriting,2026-11-10,
+C-0058,LN-260143,Insurance,Provide homeowner's insurance declarations page showing the lender as mortgagee.,Cleared,Underwriting,2026-11-04,2026-11-09
+C-0059,LN-260143,Employment,Verbal verification of employment within 10 business days of closing.,Open,Underwriting,2026-11-11,
+C-0060,LN-260143,Credit,Letter of explanation for recent credit inquiries.,Cleared,Underwriting,2026-11-05,2026-11-12
+C-0061,LN-260143,Assets,Provide the most recent two months of statements for all asset accounts.,Open,Underwriting,2026-11-09,
+C-0062,LN-260144,Employment,Verbal verification of employment within 10 business days of closing.,Cleared,Underwriting,2026-11-01,2026-11-05
+C-0063,LN-260144,Insurance,Provide homeowner's insurance declarations page showing the lender as mortgagee.,Cleared,Underwriting,2026-10-31,2026-11-07
+C-0064,LN-260144,Assets,Provide the most recent two months of statements for all asset accounts.,Cleared,Underwriting,2026-11-06,2026-11-13
+C-0065,LN-260144,Credit,Letter of explanation for recent credit inquiries.,Cleared,Underwriting,2026-10-30,2026-11-05
+C-0066,LN-260145,Employment,Verbal verification of employment within 10 business days of closing.,Open,Underwriting,2026-11-05,
+C-0067,LN-260145,Insurance,Provide homeowner's insurance declarations page showing the lender as mortgagee.,Cleared,Underwriting,2026-11-04,2026-11-06
+C-0068,LN-260146,Credit,Letter of explanation for recent credit inquiries.,Cleared,Underwriting,2026-10-27,2026-11-03
+C-0069,LN-260146,Assets,Provide the most recent two months of statements for all asset accounts.,Cleared,Underwriting,2026-10-30,2026-11-01
+C-0070,LN-260146,Property,Provide HOA dues statement or confirm the property is not in an HOA.,Open,Underwriting,2026-10-29,
+C-0071,LN-260146,Employment,Verbal verification of employment within 10 business days of closing.,Open,Underwriting,2026-10-31,
+C-0072,LN-260147,Credit,Letter of explanation for recent credit inquiries.,Open,Underwriting,2026-11-05,
+C-0073,LN-260147,Assets,Provide the most recent two months of statements for all asset accounts.,Open,Underwriting,2026-11-05,
+C-0074,LN-260147,Employment,Verbal verification of employment within 10 business days of closing.,Cleared,Underwriting,2026-11-05,2026-11-11
+C-0075,LN-260148,Assets,Provide the most recent two months of statements for all asset accounts.,Cleared,Underwriting,2026-11-02,2026-11-04
+C-0076,LN-260148,Insurance,Provide homeowner's insurance declarations page showing the lender as mortgagee.,Cleared,Underwriting,2026-11-02,2026-11-09
+C-0077,LN-260148,Credit,Letter of explanation for recent credit inquiries.,Open,Underwriting,2026-11-02,
+C-0078,LN-260148,Property,Provide HOA dues statement or confirm the property is not in an HOA.,Open,Underwriting,2026-11-01,
+C-0079,LN-260149,Property,Provide HOA dues statement or confirm the property is not in an HOA.,Cleared,Underwriting,2026-10-25,2026-11-03
+C-0080,LN-260149,Credit,Letter of explanation for recent credit inquiries.,Cleared,Underwriting,2026-10-26,2026-10-28
+C-0081,LN-260149,Assets,Provide the most recent two months of statements for all asset accounts.,Cleared,Underwriting,2026-10-27,2026-11-03
+C-0082,LN-260150,Credit,Letter of explanation for recent credit inquiries.,Cleared,Underwriting,2026-10-24,2026-10-31
+C-0083,LN-260150,Property,Provide HOA dues statement or confirm the property is not in an HOA.,Cleared,Underwriting,2026-10-29,2026-11-05
+C-0084,LN-260150,Assets,Provide the most recent two months of statements for all asset accounts.,Cleared,Underwriting,2026-10-27,2026-10-31
+C-0085,LN-260150,Insurance,Provide homeowner's insurance declarations page showing the lender as mortgagee.,Cleared,Underwriting,2026-10-27,2026-11-04
+C-0086,LN-260151,Credit,Letter of explanation for recent credit inquiries.,Cleared,Underwriting,2026-10-21,2026-10-24
+C-0087,LN-260151,Assets,Provide the most recent two months of statements for all asset accounts.,Cleared,Underwriting,2026-10-21,2026-10-29
+C-0088,LN-260151,Property,Provide HOA dues statement or confirm the property is not in an HOA.,Cleared,Underwriting,2026-10-20,2026-10-22
+C-0089,LN-260152,Credit,Letter of explanation for recent credit inquiries.,Cleared,Underwriting,2026-10-26,2026-11-02
+C-0090,LN-260152,Property,Provide HOA dues statement or confirm the property is not in an HOA.,Cleared,Underwriting,2026-10-18,2026-10-20
+C-0091,LN-260153,Credit,Letter of explanation for recent credit inquiries.,Cleared,Underwriting,2026-10-23,2026-10-25
+C-0092,LN-260153,Assets,Provide the most recent two months of statements for all asset accounts.,Cleared,Underwriting,2026-10-27,2026-10-29
+C-0093,LN-260154,Credit,Letter of explanation for recent credit inquiries.,Cleared,Underwriting,2026-10-27,2026-11-04
+C-0094,LN-260154,Employment,Verbal verification of employment within 10 business days of closing.,Cleared,Underwriting,2026-10-28,2026-11-03
+C-0095,LN-260154,Insurance,Provide homeowner's insurance declarations page showing the lender as mortgagee.,Cleared,Underwriting,2026-10-28,2026-10-30
+C-0096,LN-260154,Property,Provide HOA dues statement or confirm the property is not in an HOA.,Cleared,Underwriting,2026-10-29,2026-11-05
+C-0097,LN-260155,Employment,Verbal verification of employment within 10 business days of closing.,Cleared,Underwriting,2026-10-06,2026-10-08
+C-0098,LN-260155,Credit,Letter of explanation for recent credit inquiries.,Cleared,Underwriting,2026-10-06,2026-10-08
+C-0099,LN-260156,Property,Provide HOA dues statement or confirm the property is not in an HOA.,Cleared,Underwriting,2026-10-02,2026-10-10
+C-0100,LN-260156,Insurance,Provide homeowner's insurance declarations page showing the lender as mortgagee.,Cleared,Underwriting,2026-10-06,2026-10-13
+C-0101,LN-260156,Employment,Verbal verification of employment within 10 business days of closing.,Cleared,Underwriting,2026-10-06,2026-10-15
+C-0102,LN-260156,Credit,Letter of explanation for recent credit inquiries.,Cleared,Underwriting,2026-10-07,2026-10-10
+C-0103,LN-260157,Employment,Verbal verification of employment within 10 business days of closing.,Cleared,Underwriting,2026-10-13,2026-10-19
+C-0104,LN-260157,Assets,Provide the most recent two months of statements for all asset accounts.,Cleared,Underwriting,2026-10-15,2026-10-23
+C-0105,LN-260157,Credit,Letter of explanation for recent credit inquiries.,Cleared,Underwriting,2026-10-16,2026-10-21
+C-0106,LN-260158,Property,Provide HOA dues statement or confirm the property is not in an HOA.,Cleared,Underwriting,2026-10-16,2026-10-23
+C-0107,LN-260158,Employment,Verbal verification of employment within 10 business days of closing.,Cleared,Underwriting,2026-10-09,2026-10-14
+C-0108,LN-260158,Assets,Provide the most recent two months of statements for all asset accounts.,Cleared,Underwriting,2026-10-16,2026-10-20
+C-0109,LN-260159,Credit,Letter of explanation for recent credit inquiries.,Cleared,Underwriting,2026-10-06,2026-10-08
+C-0110,LN-260159,Assets,Provide the most recent two months of statements for all asset accounts.,Cleared,Underwriting,2026-10-03,2026-10-06
+C-0111,LN-260159,Property,Provide HOA dues statement or confirm the property is not in an HOA.,Cleared,Underwriting,2026-10-09,2026-10-14
+C-0112,LN-260160,Credit,Letter of explanation for recent credit inquiries.,Cleared,Underwriting,2026-09-28,2026-10-02
+C-0113,LN-260160,Property,Provide HOA dues statement or confirm the property is not in an HOA.,Cleared,Underwriting,2026-10-02,2026-10-08
+C-0114,LN-260160,Assets,Provide the most recent two months of statements for all asset accounts.,Cleared,Underwriting,2026-09-28,2026-10-06
+C-0115,LN-260160,Employment,Verbal verification of employment within 10 business days of closing.,Cleared,Underwriting,2026-10-03,2026-10-08

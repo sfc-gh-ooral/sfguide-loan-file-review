@@ -1,0 +1,159 @@
+finding_id,loan_id,review_month,finding_type,severity,description
+QC-0001,H-25000,2025-11-01,Credit documentation,Moderate,Missing letter of explanation for a recent inquiry.
+QC-0002,H-25001,2025-11-01,Disclosure timing,Low,Closing disclosure delivered less than three business days before closing.
+QC-0003,H-25002,2025-11-01,Appraisal,Moderate,Appraisal older than policy allowed at closing.
+QC-0004,H-25003,2025-11-01,Income calculation,Significant,Qualifying income not supported by the most recent pay stubs.
+QC-0005,H-25004,2025-11-01,No finding,None,File meets policy.
+QC-0006,H-25005,2025-11-01,Credit documentation,Low,Missing letter of explanation for a recent inquiry.
+QC-0007,H-25006,2025-11-01,Credit documentation,Moderate,Missing letter of explanation for a recent inquiry.
+QC-0008,H-25007,2025-11-01,Income calculation,Significant,Qualifying income not supported by the most recent pay stubs.
+QC-0009,H-25008,2025-11-01,Income calculation,Low,Qualifying income not supported by the most recent pay stubs.
+QC-0010,H-25009,2025-11-01,No finding,None,File meets policy.
+QC-0011,H-25010,2025-12-01,Appraisal,Low,Appraisal older than policy allowed at closing.
+QC-0012,H-25011,2025-12-01,No finding,None,File meets policy.
+QC-0013,H-25012,2025-12-01,No finding,None,File meets policy.
+QC-0014,H-25013,2025-12-01,Appraisal,Low,Appraisal older than policy allowed at closing.
+QC-0015,H-25014,2025-12-01,Income calculation,Low,Qualifying income not supported by the most recent pay stubs.
+QC-0016,H-25015,2025-12-01,Asset documentation,Low,Large deposit not sourced before closing.
+QC-0017,H-25016,2025-12-01,Disclosure timing,Low,Closing disclosure delivered less than three business days before closing.
+QC-0018,H-25017,2025-12-01,No finding,None,File meets policy.
+QC-0019,H-25018,2025-12-01,Credit documentation,Significant,Missing letter of explanation for a recent inquiry.
+QC-0020,H-25019,2025-12-01,No finding,None,File meets policy.
+QC-0021,H-25020,2025-12-01,Credit documentation,Low,Missing letter of explanation for a recent inquiry.
+QC-0022,H-25021,2025-12-01,No finding,None,File meets policy.
+QC-0023,H-25022,2026-01-01,Income calculation,Moderate,Qualifying income not supported by the most recent pay stubs.
+QC-0024,H-25023,2026-01-01,No finding,None,File meets policy.
+QC-0025,H-25024,2026-01-01,No finding,None,File meets policy.
+QC-0026,H-25025,2026-01-01,Credit documentation,Significant,Missing letter of explanation for a recent inquiry.
+QC-0027,H-25026,2026-01-01,No finding,None,File meets policy.
+QC-0028,H-25027,2026-01-01,Credit documentation,Moderate,Missing letter of explanation for a recent inquiry.
+QC-0029,H-25028,2026-01-01,No finding,None,File meets policy.
+QC-0030,H-25029,2026-01-01,No finding,None,File meets policy.
+QC-0031,H-25030,2026-01-01,Income calculation,Low,Qualifying income not supported by the most recent pay stubs.
+QC-0032,H-25031,2026-01-01,Credit documentation,Moderate,Missing letter of explanation for a recent inquiry.
+QC-0033,H-25032,2026-01-01,No finding,None,File meets policy.
+QC-0034,H-25033,2026-01-01,Credit documentation,Low,Missing letter of explanation for a recent inquiry.
+QC-0035,H-25034,2026-01-01,No finding,None,File meets policy.
+QC-0036,H-25035,2026-01-01,Income calculation,Moderate,Qualifying income not supported by the most recent pay stubs.
+QC-0037,H-25036,2026-02-01,Asset documentation,Low,Large deposit not sourced before closing.
+QC-0038,H-25037,2026-02-01,Credit documentation,Moderate,Missing letter of explanation for a recent inquiry.
+QC-0039,H-25038,2026-02-01,Credit documentation,Low,Missing letter of explanation for a recent inquiry.
+QC-0040,H-25039,2026-02-01,Asset documentation,Moderate,Large deposit not sourced before closing.
+QC-0041,H-25040,2026-02-01,Income calculation,Low,Qualifying income not supported by the most recent pay stubs.
+QC-0042,H-25041,2026-02-01,No finding,None,File meets policy.
+QC-0043,H-25042,2026-02-01,No finding,None,File meets policy.
+QC-0044,H-25043,2026-02-01,Title and closing,Low,Title commitment requirement not cleared in file.
+QC-0045,H-25044,2026-02-01,Income calculation,Moderate,Qualifying income not supported by the most recent pay stubs.
+QC-0046,H-25045,2026-02-01,No finding,None,File meets policy.
+QC-0047,H-25046,2026-02-01,No finding,None,File meets policy.
+QC-0048,H-25047,2026-02-01,Income calculation,Low,Qualifying income not supported by the most recent pay stubs.
+QC-0049,H-25048,2026-03-01,Income calculation,Low,Qualifying income not supported by the most recent pay stubs.
+QC-0050,H-25049,2026-03-01,Disclosure timing,Moderate,Closing disclosure delivered less than three business days before closing.
+QC-0051,H-25050,2026-03-01,No finding,None,File meets policy.
+QC-0052,H-25051,2026-03-01,Credit documentation,Moderate,Missing letter of explanation for a recent inquiry.
+QC-0053,H-25052,2026-03-01,Income calculation,Low,Qualifying income not supported by the most recent pay stubs.
+QC-0054,H-25053,2026-03-01,Appraisal,Moderate,Appraisal older than policy allowed at closing.
+QC-0055,H-25054,2026-03-01,Asset documentation,Low,Large deposit not sourced before closing.
+QC-0056,H-25055,2026-03-01,Asset documentation,Low,Large deposit not sourced before closing.
+QC-0057,H-25056,2026-03-01,No finding,None,File meets policy.
+QC-0058,H-25057,2026-03-01,Title and closing,Significant,Title commitment requirement not cleared in file.
+QC-0059,H-25058,2026-03-01,No finding,None,File meets policy.
+QC-0060,H-25059,2026-03-01,Income calculation,Significant,Qualifying income not supported by the most recent pay stubs.
+QC-0061,H-25060,2026-03-01,Income calculation,Low,Qualifying income not supported by the most recent pay stubs.
+QC-0062,H-25061,2026-04-01,Income calculation,Significant,Qualifying income not supported by the most recent pay stubs.
+QC-0063,H-25062,2026-04-01,No finding,None,File meets policy.
+QC-0064,H-25063,2026-04-01,Asset documentation,Significant,Large deposit not sourced before closing.
+QC-0065,H-25064,2026-04-01,Income calculation,Low,Qualifying income not supported by the most recent pay stubs.
+QC-0066,H-25065,2026-04-01,Income calculation,Significant,Qualifying income not supported by the most recent pay stubs.
+QC-0067,H-25066,2026-04-01,Asset documentation,Moderate,Large deposit not sourced before closing.
+QC-0068,H-25067,2026-04-01,Income calculation,Significant,Qualifying income not supported by the most recent pay stubs.
+QC-0069,H-25068,2026-04-01,No finding,None,File meets policy.
+QC-0070,H-25069,2026-04-01,No finding,None,File meets policy.
+QC-0071,H-25070,2026-04-01,Income calculation,Moderate,Qualifying income not supported by the most recent pay stubs.
+QC-0072,H-25071,2026-04-01,Income calculation,Moderate,Qualifying income not supported by the most recent pay stubs.
+QC-0073,H-25072,2026-04-01,No finding,None,File meets policy.
+QC-0074,H-25073,2026-04-01,Credit documentation,Moderate,Missing letter of explanation for a recent inquiry.
+QC-0075,H-25074,2026-04-01,No finding,None,File meets policy.
+QC-0076,H-25075,2026-04-01,Income calculation,Low,Qualifying income not supported by the most recent pay stubs.
+QC-0077,H-25076,2026-05-01,No finding,None,File meets policy.
+QC-0078,H-25077,2026-05-01,Appraisal,Significant,Appraisal older than policy allowed at closing.
+QC-0079,H-25078,2026-05-01,Income calculation,Low,Qualifying income not supported by the most recent pay stubs.
+QC-0080,H-25079,2026-05-01,Disclosure timing,Moderate,Closing disclosure delivered less than three business days before closing.
+QC-0081,H-25080,2026-05-01,No finding,None,File meets policy.
+QC-0082,H-25081,2026-05-01,Appraisal,Moderate,Appraisal older than policy allowed at closing.
+QC-0083,H-25082,2026-05-01,Disclosure timing,Significant,Closing disclosure delivered less than three business days before closing.
+QC-0084,H-25083,2026-05-01,No finding,None,File meets policy.
+QC-0085,H-25084,2026-05-01,Appraisal,Low,Appraisal older than policy allowed at closing.
+QC-0086,H-25085,2026-05-01,Asset documentation,Moderate,Large deposit not sourced before closing.
+QC-0087,H-25086,2026-05-01,Appraisal,Moderate,Appraisal older than policy allowed at closing.
+QC-0088,H-25087,2026-05-01,Credit documentation,Low,Missing letter of explanation for a recent inquiry.
+QC-0089,H-25088,2026-06-01,Appraisal,Moderate,Appraisal older than policy allowed at closing.
+QC-0090,H-25089,2026-06-01,Credit documentation,Low,Missing letter of explanation for a recent inquiry.
+QC-0091,H-25090,2026-06-01,No finding,None,File meets policy.
+QC-0092,H-25091,2026-06-01,Disclosure timing,Low,Closing disclosure delivered less than three business days before closing.
+QC-0093,H-25092,2026-06-01,No finding,None,File meets policy.
+QC-0094,H-25093,2026-06-01,No finding,None,File meets policy.
+QC-0095,H-25094,2026-06-01,No finding,None,File meets policy.
+QC-0096,H-25095,2026-06-01,Asset documentation,Low,Large deposit not sourced before closing.
+QC-0097,H-25096,2026-06-01,Credit documentation,Moderate,Missing letter of explanation for a recent inquiry.
+QC-0098,H-25097,2026-06-01,No finding,None,File meets policy.
+QC-0099,H-25098,2026-06-01,Income calculation,Significant,Qualifying income not supported by the most recent pay stubs.
+QC-0100,H-25099,2026-06-01,Credit documentation,Low,Missing letter of explanation for a recent inquiry.
+QC-0101,H-25100,2026-06-01,Asset documentation,Low,Large deposit not sourced before closing.
+QC-0102,H-25101,2026-06-01,Credit documentation,Low,Missing letter of explanation for a recent inquiry.
+QC-0103,H-25102,2026-06-01,Credit documentation,Moderate,Missing letter of explanation for a recent inquiry.
+QC-0104,H-25103,2026-07-01,No finding,None,File meets policy.
+QC-0105,H-25104,2026-07-01,Asset documentation,Moderate,Large deposit not sourced before closing.
+QC-0106,H-25105,2026-07-01,No finding,None,File meets policy.
+QC-0107,H-25106,2026-07-01,Appraisal,Significant,Appraisal older than policy allowed at closing.
+QC-0108,H-25107,2026-07-01,Credit documentation,Moderate,Missing letter of explanation for a recent inquiry.
+QC-0109,H-25108,2026-07-01,No finding,None,File meets policy.
+QC-0110,H-25109,2026-07-01,No finding,None,File meets policy.
+QC-0111,H-25110,2026-07-01,Title and closing,Low,Title commitment requirement not cleared in file.
+QC-0112,H-25111,2026-07-01,Disclosure timing,Significant,Closing disclosure delivered less than three business days before closing.
+QC-0113,H-25112,2026-07-01,Asset documentation,Low,Large deposit not sourced before closing.
+QC-0114,H-25113,2026-07-01,Income calculation,Low,Qualifying income not supported by the most recent pay stubs.
+QC-0115,H-25114,2026-07-01,Income calculation,Low,Qualifying income not supported by the most recent pay stubs.
+QC-0116,H-25115,2026-07-01,Title and closing,Low,Title commitment requirement not cleared in file.
+QC-0117,H-25116,2026-08-01,Income calculation,Low,Qualifying income not supported by the most recent pay stubs.
+QC-0118,H-25117,2026-08-01,Credit documentation,Low,Missing letter of explanation for a recent inquiry.
+QC-0119,H-25118,2026-08-01,Disclosure timing,Moderate,Closing disclosure delivered less than three business days before closing.
+QC-0120,H-25119,2026-08-01,No finding,None,File meets policy.
+QC-0121,H-25120,2026-08-01,No finding,None,File meets policy.
+QC-0122,H-25121,2026-08-01,No finding,None,File meets policy.
+QC-0123,H-25122,2026-08-01,Income calculation,Low,Qualifying income not supported by the most recent pay stubs.
+QC-0124,H-25123,2026-08-01,Credit documentation,Low,Missing letter of explanation for a recent inquiry.
+QC-0125,H-25124,2026-08-01,No finding,None,File meets policy.
+QC-0126,H-25125,2026-08-01,No finding,None,File meets policy.
+QC-0127,H-25126,2026-08-01,Asset documentation,Low,Large deposit not sourced before closing.
+QC-0128,H-25127,2026-08-01,Appraisal,Low,Appraisal older than policy allowed at closing.
+QC-0129,H-25128,2026-08-01,Appraisal,Significant,Appraisal older than policy allowed at closing.
+QC-0130,H-25129,2026-08-01,No finding,None,File meets policy.
+QC-0131,H-25130,2026-08-01,No finding,None,File meets policy.
+QC-0132,H-25131,2026-09-01,Asset documentation,Significant,Large deposit not sourced before closing.
+QC-0133,H-25132,2026-09-01,Asset documentation,Moderate,Large deposit not sourced before closing.
+QC-0134,H-25133,2026-09-01,Asset documentation,Low,Large deposit not sourced before closing.
+QC-0135,H-25134,2026-09-01,No finding,None,File meets policy.
+QC-0136,H-25135,2026-09-01,Appraisal,Moderate,Appraisal older than policy allowed at closing.
+QC-0137,H-25136,2026-09-01,No finding,None,File meets policy.
+QC-0138,H-25137,2026-09-01,No finding,None,File meets policy.
+QC-0139,H-25138,2026-09-01,Appraisal,Significant,Appraisal older than policy allowed at closing.
+QC-0140,H-25139,2026-09-01,Disclosure timing,Significant,Closing disclosure delivered less than three business days before closing.
+QC-0141,H-25140,2026-09-01,Asset documentation,Low,Large deposit not sourced before closing.
+QC-0142,H-25141,2026-09-01,Asset documentation,Low,Large deposit not sourced before closing.
+QC-0143,H-25142,2026-09-01,Income calculation,Moderate,Qualifying income not supported by the most recent pay stubs.
+QC-0144,H-25143,2026-09-01,No finding,None,File meets policy.
+QC-0145,H-25144,2026-09-01,Appraisal,Moderate,Appraisal older than policy allowed at closing.
+QC-0146,H-25145,2026-09-01,Income calculation,Significant,Qualifying income not supported by the most recent pay stubs.
+QC-0147,H-25146,2026-10-01,Asset documentation,Significant,Large deposit not sourced before closing.
+QC-0148,H-25147,2026-10-01,No finding,None,File meets policy.
+QC-0149,H-25148,2026-10-01,No finding,None,File meets policy.
+QC-0150,H-25149,2026-10-01,No finding,None,File meets policy.
+QC-0151,H-25150,2026-10-01,No finding,None,File meets policy.
+QC-0152,H-25151,2026-10-01,No finding,None,File meets policy.
+QC-0153,H-25152,2026-10-01,No finding,None,File meets policy.
+QC-0154,H-25153,2026-10-01,Appraisal,Low,Appraisal older than policy allowed at closing.
+QC-0155,H-25154,2026-10-01,No finding,None,File meets policy.
+QC-0156,H-25155,2026-10-01,No finding,None,File meets policy.
+QC-0157,H-25156,2026-10-01,Appraisal,Low,Appraisal older than policy allowed at closing.
+QC-0158,H-25157,2026-10-01,Title and closing,Moderate,Title commitment requirement not cleared in file.
