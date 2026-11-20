@@ -45,3 +45,4 @@ yarn-error.log*
 # Snowflake driver log (can include account details)
 snowflake.log
 __pycache__/
+.shots/
