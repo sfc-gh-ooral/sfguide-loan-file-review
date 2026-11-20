@@ -148,7 +148,7 @@ function RequestDialog({ file, cond, onClose, onSent }: { file: LoanFile; cond: 
           <div className="rounded-xl border p-3 text-[13.5px] leading-relaxed whitespace-pre-wrap caret" style={{ borderColor: 'var(--line)', minHeight: 220 }}>{shown}</div>
         ) : (
           <>
-            <textarea className="input w-full text-[13.5px]" rows={11} value={msg} onChange={(e) => setMsg(e.target.value)} aria-label="Message to the borrower" />
+            <textarea className="input w-full text-[13.5px]" rows={8} value={msg} onChange={(e) => setMsg(e.target.value)} aria-label="Message to the borrower" />
             <p className="text-[11px] muted mt-1">AI draft: edit before recording. This example records the request; it doesn&apos;t send email.</p>
             <div className="flex gap-2 justify-end mt-3">
               <button className="btn" onClick={onClose}>Cancel</button>

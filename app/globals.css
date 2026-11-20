@@ -121,8 +121,8 @@
   .prose-ai th, .prose-ai td { border: 1px solid var(--line); padding: 4px 8px; text-align: left; }
   .prose-ai .cite { font-family: var(--font-mono); font-size: 10.5px; color: var(--ai); background: var(--ai-soft); border-radius: 4px; padding: 0 4px; margin: 0 1px; }
 
-  .fade-up { animation: fadeUp .18s ease-out both; }
-  .drawer-in { animation: drawerIn .22s ease-out both; }
+  .fade-up { animation: fadeUp .18s ease-out backwards; }
+  .drawer-in { animation: drawerIn .22s ease-out backwards; }
   .caret::after { content: ""; display: inline-block; width: 7px; height: 1em; margin-left: 2px; vertical-align: -2px; background: var(--ai); animation: blink 1s steps(2) infinite; }
 
   .rail-btn { display: flex; flex-direction: column; align-items: center; gap: 4px; padding: 9px 4px; border-radius: 12px; font-size: 10.5px; font-weight: 600;
