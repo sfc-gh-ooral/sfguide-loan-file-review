@@ -192,6 +192,14 @@ export const liveData: LoanData = {
     };
   },
 
+  async reextract(loanId, docId) {
+    const [rows, ms] = await timed(() => query<Row>('CALL REEXTRACT_DOCUMENT(?, ?)', [loanId, docId]));
+    const r = J<Row>(rows[0]?.REEXTRACT_DOCUMENT, {});
+    if (!rows.length || r.error) throw new Error(S(r.error) ?? 'Re-extraction returned nothing');
+    return { docId, docType: S(r.doc_type), pageCount: N(r.page_count), fields: N(r.fields) ?? 0, minScore: N(r.min_score),
+      pipeline: S(r.pipeline) ?? '', provenance: { source: 'live', latencyMs: ms } };
+  },
+
   async act(a) {
     await query(`INSERT INTO APP.LOAN_ACTIONS (loan_id, action, condition_id, comment, message) VALUES (?, ?, ?, ?, ?)`,
       [a.loanId, a.action, a.conditionId ?? null, a.comment ?? null, a.message ?? null]);

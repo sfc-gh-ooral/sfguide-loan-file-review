@@ -20,12 +20,14 @@ A fictional lender, Halvaren Home Lending, has 60 mortgage loan files with 512 b
 4. checks the documents against the application in SQL with tolerances from a `CREDIT_POLICY` table (income vs pay stub, employer, borrower name, large non-payroll deposits, appraisal age at closing, appraised value, loan amount, property address) and opens a condition for every failure, and
 5. writes a QC narrative per loan with **AI_COMPLETE**.
 
+A processor can also press **Re-extract** on any document in the loan file. In Live mode that calls the `REEXTRACT_DOCUMENT` procedure, which puts the file back on the queue and runs the same procedure, so **AI_PARSE_DOCUMENT**, **AI_CLASSIFY** and **AI_EXTRACT** run again on that file while you watch; the checks, conditions and QC narrative for the loan update with it.
+
 **Cortex Search** indexes each loan's parsed documents and conditions, so a processor can ask questions about one file and get answers with citations. **AI_COMPLETE** also drafts a borrower email for any open condition.
 
 | Screen | What you see |
 | --- | --- |
 | Pipeline | A stage line of loans and open conditions per stage, KPI tiles, a sortable and filterable work queue, the files that need a human, closing horizon and processor workload |
-| Loan file | A three-pane workspace: document checklist with extraction progress and confidence; application vs documents with mismatches highlighted and a link to the source; conditions with **Clear**, **Draft borrower request** (AI-drafted message) and **Escalate to underwriter**; and a document drawer with the parsed page and its extracted fields |
+| Loan file | A three-pane workspace: document checklist with extraction progress and confidence; application vs documents with mismatches highlighted and a link to the source; conditions with **Clear**, **Draft borrower request** (AI-drafted message) and **Escalate to underwriter**; and a document drawer with the parsed page, its extracted fields and a **Re-extract** button |
 | QC sampling | Findings by type (12 months of post-closing QC and today's failed checks), the pre-closing sample, an AI QC narrative per loan, and the credit policy tolerances |
 | Ask the file | Questions such as "What's the borrower's verified monthly income?" answered from one loan's documents with numbered citations |
 
@@ -57,7 +59,7 @@ Open http://localhost:3000. The app runs on bundled responses captured from the 
 1. Open `sql/setup.sql` in a Snowsight SQL worksheet and run it top to bottom. Part 1 runs as ACCOUNTADMIN; everything else runs as the least-privilege role `LOAN_REVIEW_DEMO_ROLE`. The final three queries show how many documents were parsed and classified correctly, the result of every check, and the four planted stories.
 2. Create a key pair and register the public key on your user (commands in `.env.example`).
 3. Copy `.env.example` to `.env.local` and fill in the account, user and key path.
-4. Run `npm run dev` and switch the work bar to **Live**. Every screen now reads from `LOAN_REVIEW_DEMO`; Regenerate, Draft borrower request, Ask, Clear and Escalate call Snowflake, and the badges show measured latency. If a live call fails, the app shows the error rather than sample data.
+4. Run `npm run dev` and switch the work bar to **Live**. Every screen now reads from `LOAN_REVIEW_DEMO`; Re-extract, Regenerate, Draft borrower request, Ask, Clear and Escalate call Snowflake, and the badges show measured latency. If a live call fails, the app shows the error rather than sample data.
 
 To see the pipeline pick up a new file, upload a PDF to the stage, add a manifest row, and refresh the directory table. The task runs within five minutes (or run `EXECUTE TASK PROCESS_DOCS_TASK`):
 
@@ -83,7 +85,7 @@ To try a different credit policy, change a threshold and the checks follow, for 
 | Stages | `LOANS.LOAN_SEED`, `LOANS.LOAN_DOCS` | Seed CSVs; incoming documents (directory table enabled) |
 | Stream | `LOANS.LOAN_DOCS_STREAM` | New files on the document stage |
 | Task | `LOANS.PROCESS_DOCS_TASK` | Every 5 minutes, only when the stream has data |
-| Procedure | `LOANS.PROCESS_NEW_DOCUMENTS` | Parse, classify, extract, open rule conditions, write QC narratives |
+| Procedures | `LOANS.PROCESS_NEW_DOCUMENTS`, `LOANS.REEXTRACT_DOCUMENT` | Parse, classify, extract, open rule conditions, write QC narratives; re-run that for one document from the app |
 | Function | `LOANS.NUM` | Normalizes extracted amounts |
 | Tables | `LOANS`, `DOCUMENTS`, `CONDITIONS`, `QC_FINDINGS`, `CONFIG`, `CREDIT_POLICY`, `EXTRACTION_SCHEMAS`, `DOC_QUEUE`, `DOC_PARSED`, `DOC_FIELDS`, `QC_REVIEWS`, `APP.LOAN_ACTIONS` | Reference data, pipeline output and processor decisions |
 | Views | `LOAN_DEPOSITS`, `LOAN_FACTS`, `LOAN_CHECKS`, `LOAN_CHECKLIST`, `LOAN_FACT_SHEET`, `LOAN_FILE_CHUNKS` | Tolerance checks, checklist, AI input, search corpus |
@@ -98,7 +100,7 @@ Measured on an XSMALL warehouse in AWS US East 1, November 2026, for the 512 bun
 | Setup time | 11 to 27 minutes end to end in two runs on a shared account (11.2 minutes on November 20, 2026; 27 minutes earlier when other workloads were running AI functions). Almost all of it is the first pipeline pass. In the faster run 13 of 512 extractions came back empty on the first pass; calling `PROCESS_NEW_DOCUMENTS()` once more (or waiting for the task) filled them in about a minute |
 | Cortex AI credits per full setup | About 18 from the AI SQL usage history: AI_EXTRACT 17.4 (about 0.034 credits per document), AI_CLASSIFY 0.4, AI_COMPLETE 0.5. AI_PARSE_DOCUMENT is billed per page (512 one-page PDFs) and wasn't in that usage view when we measured; see the consumption table for its rate |
 | Warehouse credits | 0.54 to 0.93 per setup plus live testing in our two runs (metering history lags, so the lower figure may be partial); the warehouse suspends after 60 seconds |
-| Live app latency | Varied with account load across our two runs. Screens: 1–3 s after the first call in one run, 10–15 s in the other (the first call opens the connection). Borrower request draft 3.3–6.0 s; Ask the file 3.1–14 s; Regenerate QC narrative 12–20 s. Each badge in the app shows the measured time |
+| Live app latency | Varied with account load across our two runs. Screens: 1–3 s after the first call in one run, 10–15 s in the other (the first call opens the connection). Borrower request draft 3.3–6.0 s; Ask the file 3.1–14 s; Regenerate QC narrative 12–20 s; Re-extract one document 62–75 s in three runs on November 20, 2026 (it re-parses, re-classifies and re-extracts the file, then rewrites the loan's QC narrative). Each badge in the app shows the measured time |
 
 Most of the cost is AI_EXTRACT. To try it more cheaply on your own documents, start with a small sample or fewer fields. The task's `WHEN SYSTEM$STREAM_HAS_DATA` check doesn't start the warehouse while no files arrive. Costs depend on your region, model, document length and pricing; check the [Snowflake Service Consumption Table](https://www.snowflake.com/legal-files/CreditConsumptionTable.pdf).
 

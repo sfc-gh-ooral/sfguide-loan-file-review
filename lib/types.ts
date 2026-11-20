@@ -57,6 +57,7 @@ export interface QcBoard {
   policy: { ruleId: string; ruleName: string; threshold: number; description: string }[];
 }
 
+export interface Reextract { docId: string; docType: string | null; pageCount: number | null; fields: number; minScore: number | null; pipeline: string; provenance: Provenance }
 export interface Draft { message: string; provenance: Provenance }
 export interface Citation { id: string; sourceType: string; name: string; date: string; snippet: string }
 export interface Answer { answer: string; citations: Citation[]; provenance: Provenance }

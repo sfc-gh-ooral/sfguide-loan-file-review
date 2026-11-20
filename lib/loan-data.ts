@@ -1,6 +1,6 @@
 // One interface, two implementations: lib/mock-data.ts (bundled synthetic captures) and
 // lib/live-data.ts (Snowflake). Every screen goes through it.
-import type { Answer, Draft, LoanAction, LoanFile, Pipeline, QcBoard, QcReview } from './types';
+import type { Answer, Draft, LoanAction, LoanFile, Pipeline, QcBoard, QcReview, Reextract } from './types';
 
 export interface LoanData {
   pipeline(): Promise<Pipeline>;
@@ -12,6 +12,8 @@ export interface LoanData {
   draft(loanId: string, conditionId: string): Promise<Draft>;
   /** Ask a question over one loan's documents and conditions. */
   ask(loanId: string, question: string): Promise<Answer>;
+  /** Re-run AI_PARSE_DOCUMENT, AI_CLASSIFY and AI_EXTRACT on one document through the pipeline. */
+  reextract(loanId: string, docId: string): Promise<Reextract>;
   /** Record a processor decision: clear a condition, request a document, or escalate. */
   act(action: LoanAction): Promise<{ ok: true }>;
 }

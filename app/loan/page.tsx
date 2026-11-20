@@ -4,7 +4,7 @@
 // application vs documents (mismatches highlighted, with their source) and conditions with clear /
 // request document (AI-drafted message) / escalate. Right: the document drawer with the parsed page
 // and extracted fields. On narrow screens the drawer is a bottom sheet.
-import { AlertOctagon, ArrowUpRight, Check, CheckCircle2, ChevronRight, CircleDashed, ExternalLink, FileText, Mail, MessagesSquare, Send, X } from 'lucide-react';
+import { AlertOctagon, ArrowUpRight, RefreshCw, Check, CheckCircle2, ChevronRight, CircleDashed, ExternalLink, FileText, Mail, MessagesSquare, Send, X } from 'lucide-react';
 import Link from 'next/link';
 import { useRouter, useSearchParams } from 'next/navigation';
 import { Suspense, useEffect, useMemo, useState, type ReactNode } from 'react';
@@ -13,7 +13,7 @@ import { Confidence, ErrorState, Flag, Markdown, PageSkeleton, Panel, PoweredBy,
 import { useAsync } from '@/components/useAsync';
 import { data } from '@/lib/client';
 import { HOSTED_EXAMPLE } from '@/lib/hosted';
-import { DOC_TYPE_LABEL, type Check as LoanCheck, type Condition, type DocDetail, type LoanFile } from '@/lib/types';
+import { DOC_TYPE_LABEL, type Check as LoanCheck, type Condition, type DocDetail, type LoanFile, type Reextract } from '@/lib/types';
 
 const BASE = process.env.NEXT_PUBLIC_BASE_PATH ?? '';
 const LABEL = (k: string) => k.replace(/_/g, ' ').replace(/^./, (c) => c.toUpperCase());
@@ -56,8 +56,16 @@ function Ring({ value, total, tone }: { value: number; total: number; tone: stri
   );
 }
 
-function DocViewer({ doc, docs, onPick, onClose }: { doc: DocDetail; docs: DocDetail[]; onPick: (id: string) => void; onClose?: () => void }) {
+function DocViewer({ loanId, doc, docs, onPick, onClose, onReextracted }: { loanId: string; doc: DocDetail; docs: DocDetail[]; onPick: (id: string) => void; onClose?: () => void; onReextracted: () => void }) {
   const [active, setActive] = useState<string | null>(null);
+  // Re-extract: runs AI_PARSE_DOCUMENT, AI_CLASSIFY and AI_EXTRACT again on this file (Live), or replays the captured result (Sample).
+  const [rx, setRx] = useState<{ running: boolean; result?: Reextract; error?: string }>({ running: false });
+  const reextract = () => {
+    setRx({ running: true });
+    data.reextract(loanId, doc.docId)
+      .then((r) => { setRx({ running: false, result: r }); onReextracted(); })
+      .catch((e) => setRx({ running: false, error: String(e.message) }));
+  };
   const href = doc.url || `${BASE}/documents/${doc.fileName}`;
   const entries = Object.entries(doc.fields);
   return (
@@ -69,6 +77,7 @@ function DocViewer({ doc, docs, onPick, onClose }: { doc: DocDetail; docs: DocDe
           <div className="text-[11px] muted"><span className="mono">{doc.docId}</span> · received {doc.receivedAt.replace('T', ' ').slice(0, 16)} · {doc.source}</div>
         </div>
         <div className="flex items-center gap-1">
+          <button className="btn btn-sm" onClick={reextract} disabled={rx.running} title="Parse, classify and extract this document again"><RefreshCw className={`w-3 h-3 ${rx.running ? 'animate-spin' : ''}`} aria-hidden />Re-extract</button>
           <a className="btn btn-sm" href={href} target="_blank" rel="noreferrer">PDF <ExternalLink className="w-3 h-3" /></a>
           {onClose && <button className="btn btn-ghost btn-sm !px-1.5" onClick={onClose} aria-label="Close document"><X className="w-4 h-4" /></button>}
         </div>
@@ -82,6 +91,17 @@ function DocViewer({ doc, docs, onPick, onClose }: { doc: DocDetail; docs: DocDe
         ))}
       </div>
       <div className="flex-1 min-h-0 overflow-y-auto px-4 pb-4 space-y-3">
+        {rx.running && <Reasoning kind="reextract" steps={[`Putting ${doc.fileName} back on the pipeline queue`, 'Parsing the PDF with AI_PARSE_DOCUMENT', 'Classifying the document type with AI_CLASSIFY', 'Extracting fields and confidence scores with AI_EXTRACT', 'Re-running the checks, conditions and QC narrative']} />}
+        {rx.error && <ErrorState title="Re-extraction didn't finish" detail={rx.error} onRetry={reextract} />}
+        {rx.result && (
+          <div className="rounded-xl border p-3 text-[13px] space-y-1.5" style={{ borderColor: 'var(--line)', background: 'var(--surface-2)' }} role="status">
+            <div className="flex gap-1.5 flex-wrap">{rx.result.provenance.source === 'mock' && <SampleAiBadge />}<SourceBadge p={rx.result.provenance} /></div>
+            <p>Re-extracted: classified as <strong>{DOC_TYPE_LABEL[rx.result.docType ?? ''] ?? 'unknown'}</strong>, {rx.result.fields} fields
+              {rx.result.minScore !== null ? <>, lowest confidence {Math.round(rx.result.minScore * 100)}%</> : null}
+              {rx.result.pageCount !== null ? <>, {rx.result.pageCount} {rx.result.pageCount === 1 ? 'page' : 'pages'}</> : null}.</p>
+            {rx.result.provenance.source === 'mock' && <p className="text-[11px] muted">Sample mode replays the result the live pipeline produced for this file. In Live mode the button runs AI_PARSE_DOCUMENT, AI_CLASSIFY and AI_EXTRACT again.</p>}
+          </div>
+        )}
         <div>
           <div className="flex items-center justify-between gap-2 mb-1.5"><span className="eyebrow">Extracted fields</span><PoweredBy>AI_EXTRACT</PoweredBy></div>
           {entries.length ? (
@@ -341,7 +361,7 @@ function LoanView() {
 
         {doc && (
           <aside className="panel hidden xl:flex flex-col xl:sticky xl:top-[72px] h-[calc(100vh-88px)] overflow-hidden" aria-label="Document drawer">
-            <DocViewer doc={doc} docs={file.docs} onPick={setDocId} />
+            <DocViewer key={doc.docId} loanId={id} doc={doc} docs={file.docs} onPick={setDocId} onReextracted={reload} />
           </aside>
         )}
       </div>
@@ -349,7 +369,7 @@ function LoanView() {
       {doc && sheet && (
         <div className="xl:hidden fixed inset-0 z-50 bg-black/50 flex items-end" onClick={() => setSheet(false)}>
           <div className="panel w-full h-[88vh] rounded-b-none flex flex-col overflow-hidden" role="dialog" aria-modal="true" aria-label="Document" onClick={(e) => e.stopPropagation()}>
-            <DocViewer doc={doc} docs={file.docs} onPick={setDocId} onClose={() => setSheet(false)} />
+            <DocViewer key={doc.docId} loanId={id} doc={doc} docs={file.docs} onPick={setDocId} onClose={() => setSheet(false)} onReextracted={reload} />
           </div>
         </div>
       )}

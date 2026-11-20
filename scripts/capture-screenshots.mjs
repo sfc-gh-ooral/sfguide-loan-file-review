@@ -17,11 +17,6 @@ async function shot(name, path, prep) {
   await page.screenshot({ path: `docs/images/${name}.png` });
   console.log('captured', name);
 }
-const scrollTo = (text) => async () => {
-  await page.getByText(text, { exact: true }).first().scrollIntoViewIfNeeded();
-  await page.evaluate(() => window.scrollBy(0, -90));
-  await page.waitForTimeout(400);
-};
 
 await shot('01-pipeline', '/', async () => { await page.getByText('Needs a human').waitFor(); await page.waitForTimeout(800); });
 await shot('02-income-mismatch', '/loan?id=LN-260101', async () => { await page.getByText('Application vs documents').waitFor(); await page.waitForTimeout(800); });

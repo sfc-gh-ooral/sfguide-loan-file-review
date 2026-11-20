@@ -6,15 +6,17 @@ import { isSnowflakeConfigured } from '@/lib/snowflake';
 // One entry point for every screen. Uses Snowflake when .env.local is configured and the user
 // hasn't switched to Sample mode (x-lfr-mode: sample); otherwise the bundled synthetic data.
 // Live failures are returned as errors, never silently replaced with sample data.
-const OPS = new Set<keyof LoanData>(['pipeline', 'loan', 'qc', 'narrative', 'draft', 'ask', 'act']);
+const OPS = new Set<keyof LoanData>(['pipeline', 'loan', 'qc', 'narrative', 'draft', 'ask', 'act', 'reextract']);
 const ID = /^LN-\d{6}$/;
+const DOC = /^DOC-\d{4}$/;
 const COND = /^[A-Z]-[A-Za-z0-9-]{3,32}$/;
 
 export async function POST(request: Request) {
   const { op, args } = await request.json();
   if (!OPS.has(op) || !Array.isArray(args)) return NextResponse.json({ error: 'Unknown operation' }, { status: 400 });
-  if (['loan', 'narrative', 'draft', 'ask'].includes(op) && !ID.test(String(args[0]))) return NextResponse.json({ error: 'Unknown loan' }, { status: 400 });
+  if (['loan', 'narrative', 'draft', 'ask', 'reextract'].includes(op) && !ID.test(String(args[0]))) return NextResponse.json({ error: 'Unknown loan' }, { status: 400 });
   if (op === 'draft' && !COND.test(String(args[1]))) return NextResponse.json({ error: 'Unknown condition' }, { status: 400 });
+  if (op === 'reextract' && !DOC.test(String(args[1]))) return NextResponse.json({ error: 'Unknown document' }, { status: 400 });
   if (op === 'ask' && (typeof args[1] !== 'string' || args[1].length > 500)) return NextResponse.json({ error: 'Question must be under 500 characters' }, { status: 400 });
   if (op === 'act') {
     const a = args[0];

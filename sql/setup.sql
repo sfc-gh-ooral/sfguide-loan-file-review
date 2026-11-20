@@ -417,6 +417,36 @@ CREATE OR REPLACE TASK PROCESS_DOCS_TASK
   AS CALL PROCESS_NEW_DOCUMENTS();
 ALTER TASK PROCESS_DOCS_TASK RESUME;  -- the WHEN check costs no warehouse time while no files arrive
 
+-- Re-extract one document on demand (the app's "Re-extract" button in the document drawer): drop its
+-- parse and extraction results, put it back on the queue, and run the same pipeline the task runs,
+-- so AI_PARSE_DOCUMENT, AI_CLASSIFY and AI_EXTRACT run again on that file, followed by the checks,
+-- conditions and the QC narrative for its loan.
+CREATE OR REPLACE PROCEDURE REEXTRACT_DOCUMENT(P_LOAN_ID STRING, P_DOC_ID STRING)
+RETURNS VARIANT
+LANGUAGE SQL
+EXECUTE AS OWNER
+AS
+$$
+DECLARE
+  fname STRING;
+  msg STRING;
+  res VARIANT;
+BEGIN
+  SELECT MAX(file_name) INTO :fname FROM DOCUMENTS WHERE doc_id = :P_DOC_ID AND loan_id = :P_LOAN_ID;
+  IF (fname IS NULL) THEN RETURN OBJECT_CONSTRUCT('error', 'Unknown document'); END IF;
+  DELETE FROM DOC_FIELDS WHERE doc_id = :P_DOC_ID;
+  DELETE FROM DOC_PARSED WHERE doc_id = :P_DOC_ID;
+  DELETE FROM DOC_QUEUE WHERE relative_path = :fname;
+  INSERT INTO DOC_QUEUE VALUES (:fname, CURRENT_TIMESTAMP(), FALSE);
+  CALL PROCESS_NEW_DOCUMENTS() INTO :msg;
+  SELECT OBJECT_CONSTRUCT('pipeline', :msg, 'doc_type', p.doc_type, 'page_count', p.page_count,
+                          'fields', ARRAY_SIZE(OBJECT_KEYS(f.fields)), 'min_score', f.min_score)
+    INTO :res
+    FROM DOC_PARSED p LEFT JOIN DOC_FIELDS f ON f.doc_id = p.doc_id WHERE p.doc_id = :P_DOC_ID;
+  RETURN res;
+END;
+$$;
+
 -- 2c. Cortex Search over every loan's documents and conditions, for "Ask the file" ------
 CREATE OR REPLACE VIEW LOAN_FILE_CHUNKS AS
 SELECT d.loan_id, p.doc_id AS source_id, p.doc_type AS source_type,

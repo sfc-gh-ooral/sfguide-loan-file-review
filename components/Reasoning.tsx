@@ -7,11 +7,12 @@ import { Check, Loader2 } from 'lucide-react';
 import { useEffect, useState } from 'react';
 import { SAMPLE_DELAY_MS } from '@/lib/sample-timing';
 
-export type ReasoningKind = 'narrative' | 'draft' | 'ask';
+export type ReasoningKind = 'narrative' | 'draft' | 'ask' | 'reextract';
 
 const DEFAULT: Record<ReasoningKind, string[]> = {
   narrative: ['Reading fields extracted with AI_EXTRACT', 'Applying the credit policy tolerances in SQL', 'Listing open conditions', 'Writing the QC narrative with AI_COMPLETE'],
   draft: ['Reading the condition and borrower details', 'Choosing the documents that would clear it', 'Drafting a plain-language request with AI_COMPLETE'],
+  reextract: ['Putting the file back on the pipeline queue', 'Parsing the PDF with AI_PARSE_DOCUMENT', 'Classifying the document type with AI_CLASSIFY', 'Extracting fields and confidence scores with AI_EXTRACT', 'Re-running the checks, conditions and QC narrative'],
   ask: ['Searching this loan file with Cortex Search', 'Ranking document and condition excerpts', 'Answering with AI_COMPLETE, citing sources'],
 };
 

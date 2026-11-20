@@ -77,6 +77,16 @@ export const mockData: LoanData = {
     return { answer: 'Sample mode has captured answers only for the suggested questions on this loan. Pick one of them, or run the app in Live mode to ask anything about the loan file.',
       citations: [], provenance: { source: 'mock' } };
   },
+  async reextract(id, docId) {
+    const file = await load<LoanFile>(`loans/${id}.json`);
+    await sleep(jitter(SAMPLE_DELAY_MS.reextract));
+    const d = file?.docs.find((x) => x.docId === docId);
+    if (!d) throw new Error('Unknown document');
+    const scores = Object.values(d.scores);
+    // Sample mode shows the result the live pipeline produced for this file; nothing runs.
+    return { docId, docType: d.docType, pageCount: null, fields: Object.keys(d.fields).length,
+      minScore: scores.length ? Math.min(...scores) : null, pipeline: '1 documents processed', provenance: { source: 'mock' } };
+  },
   async act(a) {
     actions.push({ ...a, actedAt: '2026-11-19 ' + new Date().toTimeString().slice(0, 5) });
     return { ok: true };
