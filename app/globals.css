@@ -9,7 +9,7 @@
   --highlight: #FFD43B; --highlight-soft: #FFF3C4; --highlight-ink: #7A5600;
   --fail: #B42318; --fail-soft: #FDECEA; --pass: #0E7A4F; --pass-soft: #E3F4EC;
   --wait: #8A5300; --wait-soft: #FBF0DD; --ai: #0F6E8C; --ai-soft: #E2F3F8;
-  --rail: #0F1F66;
+  --rail: #0F1F66; --on-cobalt: #FFFFFF;
   --s1: #1F3FBF; --s2: #4F8EF7; --s3: #0F9DB0; --s4: #8A94B0;
   --shadow: 0 1px 2px rgba(14, 23, 51, .05), 0 6px 20px -8px rgba(14, 23, 51, .12);
   --shadow-lg: 0 24px 60px -20px rgba(14, 23, 51, .35);
@@ -23,7 +23,7 @@
     --highlight-soft: #3A3415; --highlight-ink: #FFE27A;
     --fail: #FF8A80; --fail-soft: #3A1A22; --pass: #5BD7A0; --pass-soft: #0F3330;
     --wait: #F5B85C; --wait-soft: #3A2C16; --ai: #5CD0F0; --ai-soft: #0E3040;
-    --rail: #060C1C;
+    --rail: #060C1C; --on-cobalt: #0A1226;
     --s1: #7D9BFF; --s2: #4F8EF7; --s3: #2EC4D6; --s4: #8C97B6;
     --shadow: 0 1px 2px rgba(0, 0, 0, .3), 0 8px 24px -10px rgba(0, 0, 0, .5);
     color-scheme: dark;
@@ -36,7 +36,7 @@
   --highlight-soft: #3A3415; --highlight-ink: #FFE27A;
   --fail: #FF8A80; --fail-soft: #3A1A22; --pass: #5BD7A0; --pass-soft: #0F3330;
   --wait: #F5B85C; --wait-soft: #3A2C16; --ai: #5CD0F0; --ai-soft: #0E3040;
-  --rail: #060C1C;
+  --rail: #060C1C; --on-cobalt: #0A1226;
   --s1: #7D9BFF; --s2: #4F8EF7; --s3: #2EC4D6; --s4: #8C97B6;
   --shadow: 0 1px 2px rgba(0, 0, 0, .3), 0 8px 24px -10px rgba(0, 0, 0, .5);
   color-scheme: dark;
@@ -79,9 +79,8 @@
   .btn:active:not(:disabled) { transform: translateY(1px); }
   .btn:disabled { opacity: .55; cursor: default; }
   .btn-sm { height: 28px; padding: 0 9px; font-size: 12px; border-radius: 8px; }
-  .btn-primary { background: var(--cobalt); border-color: var(--cobalt); color: #fff; }
+  .btn-primary { background: var(--cobalt); border-color: var(--cobalt); color: var(--on-cobalt); }
   .btn-primary:hover:not(:disabled) { background: var(--cobalt-hover); border-color: var(--cobalt-hover); }
-  :root[data-theme="dark"] .btn-primary { color: #0A1226; }
   .btn-ai { background: var(--ai-soft); border-color: color-mix(in srgb, var(--ai) 35%, transparent); color: var(--ai); }
   .btn-ai:hover:not(:disabled) { border-color: var(--ai); }
   .btn-ghost { background: transparent; border-color: transparent; }

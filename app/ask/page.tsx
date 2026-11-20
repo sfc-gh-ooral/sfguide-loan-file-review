@@ -71,7 +71,7 @@ function AskView() {
         )}
         {turns.map((t, i) => (
           <div key={i} className="space-y-2 fade-up">
-            <div className="ml-auto max-w-[85%] w-fit rounded-2xl rounded-br-md px-4 py-2.5 text-[13.5px] font-medium text-white" style={{ background: 'var(--cobalt)' }}>{t.q}</div>
+            <div className="ml-auto max-w-[85%] w-fit rounded-2xl rounded-br-md px-4 py-2.5 text-[13.5px] font-medium" style={{ background: 'var(--cobalt)', color: 'var(--on-cobalt)' }}>{t.q}</div>
             <div className="panel p-4 rounded-bl-md">
               <div className="flex items-center justify-between gap-2 mb-2 flex-wrap">
                 <span className="flex items-center gap-2 text-xs font-semibold" style={{ color: 'var(--ai)' }}><MessagesSquare className="w-3.5 h-3.5" />Lintora</span>

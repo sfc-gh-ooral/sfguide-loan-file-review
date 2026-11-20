@@ -328,6 +328,9 @@ BEGIN
   -- (AI functions can return NULL when a call fails, for example under heavy load).
   UPDATE DOC_QUEUE SET processed = FALSE WHERE relative_path IN (SELECT file_name FROM DOC_PARSED WHERE doc_type IS NULL);
   DELETE FROM DOC_PARSED WHERE doc_type IS NULL;
+  -- Withdraw open rule conditions whose check no longer fails (LOAN_CHECKS is a view, so it is current).
+  DELETE FROM CONDITIONS WHERE source = 'Rule' AND status = 'Open'
+    AND condition_id NOT IN (SELECT 'R-' || loan_id || '-' || check_id FROM LOAN_CHECKS WHERE status = 'Fail');
   SELECT COUNT(*) INTO :n FROM DOC_QUEUE WHERE NOT processed;
   IF (n = 0) THEN RETURN 'No new documents'; END IF;
 
@@ -372,7 +375,11 @@ BEGIN
 
   UPDATE DOC_QUEUE SET processed = TRUE WHERE NOT processed;
 
-  -- 4. Open a condition for every failing tolerance check that doesn't have one yet.
+  -- 4. Withdraw open rule conditions whose check no longer fails (for example, one opened while a
+  --    document was still unextracted), then open a condition for every failing check without one.
+  DELETE FROM CONDITIONS WHERE source = 'Rule' AND status = 'Open'
+    AND condition_id NOT IN (SELECT 'R-' || loan_id || '-' || check_id FROM LOAN_CHECKS WHERE status = 'Fail');
+  -- Open a condition for every failing tolerance check that doesn't have one yet.
   INSERT INTO CONDITIONS (condition_id, loan_id, category, description, status, source, opened_at)
   SELECT 'R-' || c.loan_id || '-' || c.check_id, c.loan_id, c.check_name,
          c.check_name || ' does not match the documents: application ' || c.application_value || ', documents ' || c.document_value ||
