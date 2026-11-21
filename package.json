@@ -8,6 +8,7 @@
     "build:example": "node scripts/build-hosted-example.mjs",
     "start": "next start",
     "lint": "eslint",
+    "test": "node --experimental-strip-types --no-warnings --test tests/*.test.ts",
     "generate-data": "python3 scripts/generate_data.py",
     "capture": "node scripts/capture-screenshots.mjs"
   },

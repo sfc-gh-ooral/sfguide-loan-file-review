@@ -10,6 +10,9 @@ const nextConfig: NextConfig = hostedExample
       basePath,
       trailingSlash: true,
       images: { unoptimized: true },
+      // A fixed build ID keeps the build-ID folder and manifests in docs/try stable across rebuilds,
+      // so only chunks whose code changed show up in the diff.
+      generateBuildId: async () => "hosted-example",
       // Lets the browser build fetch per-loan sample files and documents under the base path.
       env: { NEXT_PUBLIC_BASE_PATH: basePath },
     }

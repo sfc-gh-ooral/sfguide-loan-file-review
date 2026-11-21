@@ -17,15 +17,19 @@ const AS_OF = '2026-11-19';
 type SortKey = 'loanId' | 'daysToClose' | 'openConditions' | 'amount';
 
 /** Applications received per week for the last 10 weeks before the as-of date (from applicationDate). */
-function weeklyApplications(loans: PipelineLoan[]) {
+// Weekly series for the KPI sparklines, all from the loans in the pipeline payload. `by` picks the date
+// (application, or target close for the forward view) and `value` what each loan adds (1, its open
+// conditions, its documents). Index 0 is the oldest week; for `ahead`, the week starting AS_OF.
+function weekly(loans: PipelineLoan[], by: (l: PipelineLoan) => string, value: (l: PipelineLoan) => number = () => 1, ahead = false) {
   const end = new Date(`${AS_OF}T00:00:00Z`).getTime();
-  const weeks = Array(10).fill(0);
+  const weeks = Array(ahead ? 8 : 10).fill(0);
   for (const l of loans) {
-    const w = Math.floor((end - new Date(`${l.applicationDate}T00:00:00Z`).getTime()) / (7 * 864e5));
-    if (w >= 0 && w < 10) weeks[9 - w]++;
+    const w = Math.floor(((ahead ? -1 : 1) * (end - new Date(`${by(l)}T00:00:00Z`).getTime())) / (7 * 864e5));
+    if (w >= 0 && w < weeks.length) weeks[ahead ? w : weeks.length - 1 - w] += value(l);
   }
   return weeks;
 }
+const weeklyApplications = (loans: PipelineLoan[]) => weekly(loans, (l) => l.applicationDate);
 
 function StageLine({ p, active, onPick }: { p: Pipeline; active: string; onPick: (s: string) => void }) {
   const max = Math.max(...p.byStage.map((s) => s.loans));
@@ -115,11 +119,14 @@ function PipelineView() {
         <Kpi label="Active loans" value={String(k.activeLoans)} icon={<Files className="w-3.5 h-3.5" />} spark={weeklyApplications(p.loans)}
           sparkLabel="Applications received per week, last 10 weeks" sub={<>Sparkline: applications per week, last 10 weeks · <strong>{k.readyToClear}</strong> ready to clear</>} />
         <Kpi label="Open conditions" value={String(k.openConditions)} tone="wait" icon={<ListChecks className="w-3.5 h-3.5" />}
-          sub={`${attention.length} files failed a tolerance check`} />
+          spark={weekly(active, (l) => l.applicationDate, (l) => l.openConditions)} sparkLabel="Open conditions by application week, last 10 weeks"
+          sub={<>Sparkline: open conditions by application week · <strong>{attention.length}</strong> files failed a tolerance check</>} />
         <Kpi label="Avg days to close" value={k.avgDaysToClose === null ? '—' : String(k.avgDaysToClose)} tone="cobalt" icon={<CalendarClock className="w-3.5 h-3.5" />}
-          sub={`${active.filter((l) => l.daysToClose !== null && l.daysToClose <= 7).length} files close within 7 days`} />
+          spark={weekly(active, (l) => l.targetCloseDate, () => 1, true)} sparkLabel="Scheduled closings per week, next 8 weeks"
+          sub={<>Sparkline: scheduled closings per week, next 8 weeks · <strong>{active.filter((l) => l.daysToClose !== null && l.daysToClose <= 7).length}</strong> files close within 7 days</>} />
         <Kpi label="Documents extracted" value={`${k.docsExtracted} / ${k.docsReceived}`} tone="pass" icon={<FileCheck2 className="w-3.5 h-3.5" />}
-          sub={k.typeAccuracy !== null ? `AI_CLASSIFY matched the generator's label on ${Math.round(k.typeAccuracy * 1000) / 10}% of documents` : undefined} />
+          spark={weekly(p.loans, (l) => l.applicationDate, (l) => l.docsReceived)} sparkLabel="Documents received by application week, last 10 weeks"
+          sub={<>Sparkline: documents by application week{k.typeAccuracy !== null && <> · AI_CLASSIFY matched the generator&apos;s label on <strong>{Math.round(k.typeAccuracy * 1000) / 10}%</strong> of documents</>}</>} />
       </div>
 
       <div className="grid xl:grid-cols-[minmax(0,1fr)_340px] gap-4">

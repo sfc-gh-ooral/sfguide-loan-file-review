@@ -134,6 +134,7 @@ components/          Shell (icon rail, work bar), brand mark, Sample/Live switch
 lib/live-data.ts     Live mode: Snowflake queries with bind variables
 lib/mock-data.ts     No-account mode: responses captured from the live app
 scripts/             Data generator, sample capture, hosted-example build, screenshots
+tests/               Checks on the bundled sample data (`npm test`, Node test runner)
 sql/                 setup.sql and cleanup.sql
 data/                Synthetic CSVs and documents (see data/README.md)
 docs/                GitHub Pages guide and DESIGN.md; docs/try/ is the hosted no-account example

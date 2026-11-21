@@ -55,6 +55,12 @@ Last checked: November 20, 2026 (review round 1).
 
 ## Should items skipped
 
-- Trend indicators on every pipeline KPI tile: not done; the pipeline has one business date of synthetic data, so only QC (12 months of findings) has a real trend to show.
-- Test suite and pinned build ID: not done this round. Chunk hashes come from file contents, so a pinned build ID alone wouldn't stop `docs/try` diffs.
-- Sample mode Re-extract waits 8 s; the live call takes 62–75 s, as the README states.
+- Sample mode Re-extract waits about 7.4 s (6.8–8 s with jitter); the live call takes 62–75 s, as the README states.
+
+## Polish pass, November 20, 2026
+
+- Fresh clone, `npm ci`, `npm run dev`: pass (home page returns 200).
+- Dark mode: renders with the dark theme, no console errors.
+- Round-1 Should items 4 and 5, done: every pipeline KPI tile now has a labeled weekly sparkline built from the loans in the payload (applications, open conditions by application week, scheduled closings for the next 8 weeks, documents by application week). `npm test` runs 6 checks with Node's built-in runner (sample KPIs and stage counts, loan ID format, per-loan files, Sample delays within 4–8 s including jitter, no hosts or query IDs in the sample). The hosted build pins its build ID; chunk names still change when their code changes.
+- The test found Sample delays outside 4–8 s once jitter is added (narrative and Re-extract up to 8.6 s, draft down to 3.7 s); they are now 7.4 s and 4.6 s.
+- `npm run lint` and `tsc --noEmit`: pass.
